@@ -13,4 +13,5 @@ type Meeting struct {
 	Series     MeetingSeries       `json:"series,omitempty" bson:"-"`
 	Iteration  int                 `json:"iteration,omitempty" bson:"iteration,omitempty"`
 	State      string              `json:"state,omitempty" bson:"state,omitempty"`
+	MeetId     string              `json:"meet_id,omitempty" bson:"meet_id,omitempty"`
 }
