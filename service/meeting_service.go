@@ -6,62 +6,62 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	"sr-example/example-service/model"
+	"sr-meeting/meeting-service/model"
 	"time"
 )
 
 var collection *mongo.Collection
 
-func exampleService(database *mongo.Database) {
-	collection = database.Collection("example")
+func meetingService(database *mongo.Database) {
+	collection = database.Collection("meeting")
 }
 
-func GetExamples() ([]model.Example, error) {
-	var examples []model.Example
+func GetMeetings() ([]model.Meeting, error) {
+	var meetings []model.Meeting
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	cursor, err := collection.Find(ctx, bson.M{})
 	if err != nil {
-		return []model.Example{}, err
+		return []model.Meeting{}, err
 	}
 	defer cursor.Close(ctx)
 
 	for cursor.Next(ctx) {
-		var example model.Example
-		cursor.Decode(&example)
-		examples = append(examples, example)
+		var meeting model.Meeting
+		cursor.Decode(&meeting)
+		meetings = append(meetings, meeting)
 	}
 
 	if err := cursor.Err(); err != nil {
-		return []model.Example{}, err
+		return []model.Meeting{}, err
 	}
 
-	return examples, nil
+	return meetings, nil
 }
 
-func GetExampleById(id primitive.ObjectID) (model.Example, error) {
-	var example model.Example
+func GetMeetingById(id primitive.ObjectID) (model.Meeting, error) {
+	var meeting model.Meeting
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	cursor, err := collection.Find(ctx, bson.D{{"_id", id}})
 	if err != nil {
-		return model.Example{}, err
+		return model.Meeting{}, err
 	}
 	defer cursor.Close(ctx)
 
 	if cursor.Next(ctx) {
-		cursor.Decode(&example)
-		return example, nil
+		cursor.Decode(&meeting)
+		return meeting, nil
 	}
 
-	return model.Example{}, errors.New("no entry with given id found")
+	return model.Meeting{}, errors.New("no entry with given id found")
 }
 
-func RemoveExampleById(id primitive.ObjectID) error {
+func RemoveMeetingById(id primitive.ObjectID) error {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
@@ -73,26 +73,26 @@ func RemoveExampleById(id primitive.ObjectID) error {
 	return nil
 }
 
-func AddExample(example model.Example) (model.Example, error) {
+func AddMeeting(meeting model.Meeting) (model.Meeting, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	r, err := collection.InsertOne(ctx, example)
+	r, err := collection.InsertOne(ctx, meeting)
 	if err != nil {
-		return model.Example{}, err
+		return model.Meeting{}, err
 	}
 
-	return GetExampleById(r.InsertedID.(primitive.ObjectID))
+	return GetMeetingById(r.InsertedID.(primitive.ObjectID))
 }
 
-func UpdateExample(example model.Example) (model.Example, error) {
+func UpdateMeeting(meeting model.Meeting) (model.Meeting, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	_, err := collection.ReplaceOne(ctx, bson.D{{"_id", example.Identifier}}, example)
+	_, err := collection.ReplaceOne(ctx, bson.D{{"_id", meeting.Identifier}}, meeting)
 	if err != nil {
-		return model.Example{}, err
+		return model.Meeting{}, err
 	}
 
-	return GetExampleById(example.Identifier)
+	return GetMeetingById(meeting.Identifier)
 }

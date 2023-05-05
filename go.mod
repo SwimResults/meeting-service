@@ -1,4 +1,4 @@
-module sr-example/example-service
+module sr-meeting/meeting-service
 
 go 1.18
 
