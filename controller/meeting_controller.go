@@ -11,6 +11,8 @@ import (
 func meetingController() {
 	router.GET("/meeting", getMeetings)
 	router.GET("/meeting/:id", getMeeting)
+	router.GET("/meeting/meet_id/:meet_id", getMeetingByMeetId)
+	router.GET("/meeting/between/:date_start/:date_end", getMeetingWithDateBetween)
 	router.DELETE("/meeting/:id", removeMeeting)
 	router.POST("/meeting", addMeeting)
 	router.PUT("/meeting", updateMeeting)
@@ -40,6 +42,14 @@ func getMeeting(c *gin.Context) {
 	}
 
 	c.IndentedJSON(http.StatusOK, meeting)
+}
+
+func getMeetingByMeetId(c *gin.Context) {
+	c.String(http.StatusNotImplemented, "not implemented")
+}
+
+func getMeetingWithDateBetween(c *gin.Context) {
+	c.String(http.StatusNotImplemented, "not implemented")
 }
 
 func removeMeeting(c *gin.Context) {
