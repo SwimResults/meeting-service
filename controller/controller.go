@@ -20,6 +20,8 @@ func Run() {
 	}
 
 	meetingController()
+	meetingSeriesController()
+	locationController()
 
 	router.GET("/actuator", actuator)
 

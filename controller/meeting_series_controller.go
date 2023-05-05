@@ -8,18 +8,16 @@ import (
 	"sr-meeting/meeting-service/service"
 )
 
-func meetingController() {
-	router.GET("/meeting", getMeetings)
-	router.GET("/meeting/:id", getMeeting)
-	router.GET("/meeting/meet_id/:meet_id", getMeetingByMeetId)
-	router.GET("/meeting/between/:date_start/:date_end", getMeetingWithDateBetween)
-	router.DELETE("/meeting/:id", removeMeeting)
-	router.POST("/meeting", addMeeting)
-	router.PUT("/meeting", updateMeeting)
+func meetingSeriesController() {
+	router.GET("/meeting_series", getMeetingSeries)
+	router.GET("/meeting_series/:id", getMeetingSeriesById)
+	router.DELETE("/meeting_series/:id", removeMeetingSeries)
+	router.POST("/meeting_series", addMeetingSeries)
+	router.PUT("/meeting_series", updateMeetingSeries)
 }
 
-func getMeetings(c *gin.Context) {
-	meetings, err := service.GetMeetings()
+func getMeetingSeries(c *gin.Context) {
+	meetings, err := service.GetMeetingSeries()
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
@@ -28,14 +26,14 @@ func getMeetings(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, meetings)
 }
 
-func getMeeting(c *gin.Context) {
+func getMeetingSeriesById(c *gin.Context) {
 	id, convErr := primitive.ObjectIDFromHex(c.Param("id"))
 	if convErr != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "given id was not of type ObjectID"})
 		return
 	}
 
-	meeting, err := service.GetMeetingById(id)
+	meeting, err := service.GetMeetingSeriesById(id)
 	if err != nil {
 		c.IndentedJSON(http.StatusNotFound, gin.H{"message": err.Error()})
 		return
@@ -44,34 +42,14 @@ func getMeeting(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, meeting)
 }
 
-func getMeetingByMeetId(c *gin.Context) {
-	id := c.Param("meet_id")
-	if id == "" {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "given meet_id is empty"})
-		return
-	}
-
-	meeting, err := service.GetMeetingByMeetId(id)
-	if err != nil {
-		c.IndentedJSON(http.StatusNotFound, gin.H{"message": err.Error()})
-		return
-	}
-
-	c.IndentedJSON(http.StatusOK, meeting)
-}
-
-func getMeetingWithDateBetween(c *gin.Context) {
-	c.String(http.StatusNotImplemented, "not implemented")
-}
-
-func removeMeeting(c *gin.Context) {
+func removeMeetingSeries(c *gin.Context) {
 	id, convErr := primitive.ObjectIDFromHex(c.Param("id"))
 	if convErr != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "given id was not of type ObjectID"})
 		return
 	}
 
-	err := service.RemoveMeetingById(id)
+	err := service.RemoveMeetingSeriesById(id)
 	if err != nil {
 		c.IndentedJSON(http.StatusNotFound, gin.H{"message": err.Error()})
 		return
@@ -80,14 +58,14 @@ func removeMeeting(c *gin.Context) {
 	c.IndentedJSON(http.StatusNoContent, "")
 }
 
-func addMeeting(c *gin.Context) {
-	var meeting model.Meeting
+func addMeetingSeries(c *gin.Context) {
+	var meeting model.MeetingSeries
 	if err := c.BindJSON(&meeting); err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
 	}
 
-	r, err := service.AddMeeting(meeting)
+	r, err := service.AddMeetingSeries(meeting)
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
@@ -96,14 +74,14 @@ func addMeeting(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, r)
 }
 
-func updateMeeting(c *gin.Context) {
-	var meeting model.Meeting
+func updateMeetingSeries(c *gin.Context) {
+	var meeting model.MeetingSeries
 	if err := c.BindJSON(&meeting); err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
 	}
 
-	r, err := service.UpdateMeeting(meeting)
+	r, err := service.UpdateMeetingSeries(meeting)
 	if err != nil {
 		c.IndentedJSON(http.StatusNotFound, gin.H{"message": err.Error()})
 		return

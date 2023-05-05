@@ -1,6 +1,9 @@
 package model
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import (
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"time"
+)
 
 type MeetingSeries struct {
 	Identifier primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
@@ -10,4 +13,6 @@ type MeetingSeries struct {
 	LocationId primitive.ObjectID `json:"-" bson:"location_id,omitempty"`
 	Location   Location           `json:"location,omitempty" bson:"-"`
 	Organizer  primitive.ObjectID `json:"organizer_id,omitempty" bson:"organizer_id,omitempty"`
+	AddedAt    time.Time          `json:"added_at,omitempty" bson:"added_at,omitempty"`
+	UpdatedAt  time.Time          `json:"updated_at,omitempty" bson:"updated_at,omitempty"`
 }
