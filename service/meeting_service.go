@@ -35,8 +35,15 @@ func getMeetingsByBsonDocument(d primitive.D) ([]model.Meeting, error) {
 		meeting.Series, _ = GetMeetingSeriesById(meeting.SeriesId)
 
 		if !meeting.LocationId.IsZero() {
-			meeting.Series.Location, _ = GetLocationById(meeting.LocationId)
+			meeting.Location, _ = GetLocationById(meeting.LocationId)
+		} else {
+			meeting.Location, _ = GetLocationById(meeting.Series.LocationId)
 		}
+
+		if meeting.Organizer.IsZero() {
+			meeting.Organizer = meeting.Series.Organizer
+		}
+
 		meetings = append(meetings, meeting)
 	}
 
