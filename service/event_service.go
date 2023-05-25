@@ -6,6 +6,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"sr-meeting/meeting-service/model"
 	"time"
 )
@@ -22,7 +23,10 @@ func getEventsByBsonDocument(d primitive.D) ([]model.Event, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	cursor, err := eventCollection.Find(ctx, d)
+	queryOptions := options.FindOptions{}
+	queryOptions.SetSort(bson.D{{"number", 1}})
+
+	cursor, err := eventCollection.Find(ctx, d, &queryOptions)
 	if err != nil {
 		return []model.Event{}, err
 	}
@@ -63,8 +67,8 @@ func GetEventById(id primitive.ObjectID) (model.Event, error) {
 	return model.Event{}, errors.New("no entry with given id found")
 }
 
-func GetEventByMeetId(id string) (model.Event, error) {
-	events, err := getEventsByBsonDocument(bson.D{{"meeting", id}})
+func GetEventByMeetingAndNumber(id string, number string) (model.Event, error) {
+	events, err := getEventsByBsonDocument(bson.D{{"meeting", id}, {"number", number}})
 	if err != nil {
 		return model.Event{}, err
 	}
@@ -73,7 +77,11 @@ func GetEventByMeetId(id string) (model.Event, error) {
 		return events[0], nil
 	}
 
-	return model.Event{}, errors.New("no entry with given meeting found")
+	return model.Event{}, errors.New("no entry with given meeting and number found")
+}
+
+func GetEventsByMeetId(id string) ([]model.Event, error) {
+	return getEventsByBsonDocument(bson.D{{"meeting", id}})
 }
 
 func RemoveEventById(id primitive.ObjectID) error {

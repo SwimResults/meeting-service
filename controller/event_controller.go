@@ -11,7 +11,8 @@ import (
 func eventController() {
 	router.GET("/event", getEvents)
 	router.GET("/event/:id", getEvent)
-	router.GET("/event/meet_id/:meet_id", getEventByMeetId)
+	router.GET("/event/meet/:meet_id", getEventsByMeetId)
+	router.GET("/event/meet/:meet_id/event/:event_id", getEventByMeetingAndNumber)
 	router.DELETE("/event/:id", removeEvent)
 	router.POST("/event", addEvent)
 	router.PUT("/event", updateEvent)
@@ -43,14 +44,35 @@ func getEvent(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, event)
 }
 
-func getEventByMeetId(c *gin.Context) {
+func getEventsByMeetId(c *gin.Context) {
+	id := c.Param("meet_id")
+	if id == "" {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "given meet_id is empty"})
+		return
+	}
+	events, err := service.GetEventsByMeetId(id)
+	if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
+
+	c.IndentedJSON(http.StatusOK, events)
+}
+
+func getEventByMeetingAndNumber(c *gin.Context) {
 	id := c.Param("meet_id")
 	if id == "" {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "given meet_id is empty"})
 		return
 	}
 
-	event, err := service.GetEventByMeetId(id)
+	eventId := c.Param("event_id")
+	if id == "" {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "given event_id is empty"})
+		return
+	}
+
+	event, err := service.GetEventByMeetingAndNumber(id, eventId)
 	if err != nil {
 		c.IndentedJSON(http.StatusNotFound, gin.H{"message": err.Error()})
 		return
