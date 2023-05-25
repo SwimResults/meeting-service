@@ -22,6 +22,8 @@ func Run() {
 	meetingController()
 	meetingSeriesController()
 	locationController()
+	styleController()
+	eventController()
 
 	router.GET("/actuator", actuator)
 

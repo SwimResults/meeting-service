@@ -17,6 +17,8 @@ func Init(c *mongo.Client) {
 	meetingService(database)
 	meetingSeriesService(database)
 	locationService(database)
+	styleService(database)
+	eventService(database)
 }
 
 func PingDatabase() bool {
