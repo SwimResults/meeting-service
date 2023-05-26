@@ -7,7 +7,7 @@ import (
 
 type Event struct {
 	Identifier    primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	Number        string             `json:"number,omitempty" bson:"number,omitempty"`
+	Number        int                `json:"number,omitempty" bson:"number,omitempty"`
 	Distance      int                `json:"distance,omitempty" bson:"distance,omitempty"`
 	RelayDistance string             `json:"relay_distance,omitempty" bson:"relay_distance,omitempty"`
 	Meeting       string             `json:"meeting,omitempty" bson:"meeting,omitempty"`
