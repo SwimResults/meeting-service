@@ -17,6 +17,8 @@ type Meeting struct {
 	Iteration  int                `json:"iteration,omitempty" bson:"iteration,omitempty"`
 	State      string             `json:"state,omitempty" bson:"state,omitempty"`
 	MeetId     string             `json:"meet_id,omitempty" bson:"meet_id,omitempty"`
+	Data       MeetingData        `json:"data,omitempty" bson:"data,omitempty"`
+	Layout     MeetingLayout      `json:"layout,omitempty" bson:"layout,omitempty"`
 	AddedAt    time.Time          `json:"added_at,omitempty" bson:"added_at,omitempty"`
 	UpdatedAt  time.Time          `json:"updated_at,omitempty" bson:"updated_at,omitempty"`
 }

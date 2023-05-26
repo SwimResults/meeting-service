@@ -1,1 +1,40 @@
 # meeting-service
+
+- Meetings and base information (+ event logo and color, etc.)
+- live links and contents
+- ?dashboard layout
+- ?provides Files (protocols, report, starting list...)
+
+## Endpoints
+
+    [GIN-debug] GET    /meeting                  --> sr-meeting/meeting-service/controller.getMeetings (3 handlers)
+    [GIN-debug] GET    /meeting/:id              --> sr-meeting/meeting-service/controller.getMeeting (3 handlers)
+    [GIN-debug] GET    /meeting/meet_id/:meet_id --> sr-meeting/meeting-service/controller.getMeetingByMeetId (3 handlers)
+    [GIN-debug] GET    /meeting/between/:date_start/:date_end --> sr-meeting/meeting-service/controller.getMeetingWithDateBetween (3 handlers)
+    [GIN-debug] DELETE /meeting/:id              --> sr-meeting/meeting-service/controller.removeMeeting (3 handlers)
+    [GIN-debug] POST   /meeting                  --> sr-meeting/meeting-service/controller.addMeeting (3 handlers)
+    [GIN-debug] PUT    /meeting                  --> sr-meeting/meeting-service/controller.updateMeeting (3 handlers)
+    [GIN-debug] GET    /meeting_series           --> sr-meeting/meeting-service/controller.getMeetingSeries (3 handlers)
+    [GIN-debug] GET    /meeting_series/:id       --> sr-meeting/meeting-service/controller.getMeetingSeriesById (3 handlers)
+    [GIN-debug] DELETE /meeting_series/:id       --> sr-meeting/meeting-service/controller.removeMeetingSeries (3 handlers)
+    [GIN-debug] POST   /meeting_series           --> sr-meeting/meeting-service/controller.addMeetingSeries (3 handlers)
+    [GIN-debug] PUT    /meeting_series           --> sr-meeting/meeting-service/controller.updateMeetingSeries (3 handlers)
+    [GIN-debug] GET    /location                 --> sr-meeting/meeting-service/controller.getLocations (3 handlers)
+    [GIN-debug] GET    /location/:id             --> sr-meeting/meeting-service/controller.getLocation (3 handlers)
+    [GIN-debug] POST   /location                 --> sr-meeting/meeting-service/controller.addLocation (3 handlers)
+    [GIN-debug] PUT    /location                 --> sr-meeting/meeting-service/controller.updateLocation (3 handlers)
+    [GIN-debug] DELETE /location/:id             --> sr-meeting/meeting-service/controller.removeLocation (3 handlers)
+    [GIN-debug] GET    /style                    --> sr-meeting/meeting-service/controller.getStyles (3 handlers)
+    [GIN-debug] GET    /style/:id                --> sr-meeting/meeting-service/controller.getStyle (3 handlers)
+    [GIN-debug] GET    /style/name/:name         --> sr-meeting/meeting-service/controller.getStyleByName (3 handlers)
+    [GIN-debug] DELETE /style/:id                --> sr-meeting/meeting-service/controller.removeStyle (3 handlers)
+    [GIN-debug] POST   /style                    --> sr-meeting/meeting-service/controller.addStyle (3 handlers)
+    [GIN-debug] PUT    /style                    --> sr-meeting/meeting-service/controller.updateStyle (3 handlers)
+    [GIN-debug] GET    /event                    --> sr-meeting/meeting-service/controller.getEvents (3 handlers)
+    [GIN-debug] GET    /event/:id                --> sr-meeting/meeting-service/controller.getEvent (3 handlers)
+    [GIN-debug] GET    /event/meet/:meet_id      --> sr-meeting/meeting-service/controller.getEventsByMeetId (3 handlers)
+    [GIN-debug] GET    /event/meet/:meet_id/event/:event_id --> sr-meeting/meeting-service/controller.getEventByMeetingAndNumber (3 handlers)
+    [GIN-debug] DELETE /event/:id                --> sr-meeting/meeting-service/controller.removeEvent (3 handlers)
+    [GIN-debug] POST   /event                    --> sr-meeting/meeting-service/controller.addEvent (3 handlers)
+    [GIN-debug] PUT    /event                    --> sr-meeting/meeting-service/controller.updateEvent (3 handlers)
+    [GIN-debug] GET    /actuator                 --> sr-meeting/meeting-service/controller.actuator (3 handlers)
