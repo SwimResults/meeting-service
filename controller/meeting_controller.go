@@ -11,7 +11,7 @@ import (
 func meetingController() {
 	router.GET("/meeting", getMeetings)
 	router.GET("/meeting/:id", getMeeting)
-	router.GET("/meeting/meet_id/:meet_id", getMeetingByMeetId)
+	router.GET("/meeting/meet/:meet_id", getMeetingByMeetId)
 	router.GET("/meeting/between/:date_start/:date_end", getMeetingWithDateBetween)
 	router.DELETE("/meeting/:id", removeMeeting)
 	router.POST("/meeting", addMeeting)
