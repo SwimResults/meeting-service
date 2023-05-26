@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"sr-meeting/meeting-service/model"
 	"sr-meeting/meeting-service/service"
+	"strconv"
 )
 
 func eventController() {
@@ -66,9 +67,9 @@ func getEventByMeetingAndNumber(c *gin.Context) {
 		return
 	}
 
-	eventId := c.Param("event_id")
-	if id == "" {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "given event_id is empty"})
+	eventId, err := strconv.Atoi(c.Param("event_id"))
+	if err != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "event_id is not of type number"})
 		return
 	}
 

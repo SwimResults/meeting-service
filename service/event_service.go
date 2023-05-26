@@ -67,7 +67,7 @@ func GetEventById(id primitive.ObjectID) (model.Event, error) {
 	return model.Event{}, errors.New("no entry with given id found")
 }
 
-func GetEventByMeetingAndNumber(id string, number string) (model.Event, error) {
+func GetEventByMeetingAndNumber(id string, number int) (model.Event, error) {
 	events, err := getEventsByBsonDocument(bson.D{{"meeting", id}, {"number", number}})
 	if err != nil {
 		return model.Event{}, err
