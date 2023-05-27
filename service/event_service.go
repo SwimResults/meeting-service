@@ -24,7 +24,7 @@ func getEventsByBsonDocument(d primitive.D) ([]model.Event, error) {
 	defer cancel()
 
 	queryOptions := options.FindOptions{}
-	queryOptions.SetSort(bson.D{{"number", 1}})
+	queryOptions.SetSort(bson.D{{"ordering", 1}, {"number", 1}})
 
 	cursor, err := eventCollection.Find(ctx, d, &queryOptions)
 	if err != nil {
@@ -78,6 +78,38 @@ func GetEventByMeetingAndNumber(id string, number int) (model.Event, error) {
 	}
 
 	return model.Event{}, errors.New("no entry with given meeting and number found")
+}
+
+func GetEventsAsPartsByMeetId(id string) ([]model.MeetingPart, error) {
+	events, err := getEventsByBsonDocument(bson.D{{"meeting", id}})
+	if err != nil {
+		return []model.MeetingPart{}, err
+	}
+
+	var partMap = make(map[int]model.MeetingPart)
+
+	for _, event := range events {
+		if &event.Part == nil {
+			continue
+		}
+		_, has := partMap[event.Part.Number]
+		if !has {
+			event.Part.Events = []model.Event{}
+			partMap[event.Part.Number] = event.Part
+		}
+		part := partMap[event.Part.Number]
+		part.Events = append(part.Events, event)
+
+		partMap[event.Part.Number] = part
+	}
+
+	var parts []model.MeetingPart
+
+	for _, part := range partMap {
+		parts = append(parts, part)
+	}
+
+	return parts, nil
 }
 
 func GetEventsByMeetId(id string) ([]model.Event, error) {

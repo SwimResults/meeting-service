@@ -13,6 +13,7 @@ func eventController() {
 	router.GET("/event", getEvents)
 	router.GET("/event/:id", getEvent)
 	router.GET("/event/meet/:meet_id", getEventsByMeetId)
+	router.GET("/event/meet/:meet_id/parts", getEventsAsPartsByMeetId)
 	router.GET("/event/meet/:meet_id/event/:event_id", getEventByMeetingAndNumber)
 	router.DELETE("/event/:id", removeEvent)
 	router.POST("/event", addEvent)
@@ -58,6 +59,21 @@ func getEventsByMeetId(c *gin.Context) {
 	}
 
 	c.IndentedJSON(http.StatusOK, events)
+}
+
+func getEventsAsPartsByMeetId(c *gin.Context) {
+	id := c.Param("meet_id")
+	if id == "" {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "given meet_id is empty"})
+		return
+	}
+	parts, err := service.GetEventsAsPartsByMeetId(id)
+	if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
+
+	c.IndentedJSON(http.StatusOK, parts)
 }
 
 func getEventByMeetingAndNumber(c *gin.Context) {
