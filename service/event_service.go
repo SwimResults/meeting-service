@@ -7,6 +7,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"sort"
 	"sr-meeting/meeting-service/model"
 	"time"
 )
@@ -108,6 +109,10 @@ func GetEventsAsPartsByMeetId(id string) ([]model.MeetingPart, error) {
 	for _, part := range partMap {
 		parts = append(parts, part)
 	}
+
+	sort.SliceStable(parts, func(i, j int) bool {
+		return parts[i].Number < parts[j].Number
+	})
 
 	return parts, nil
 }
