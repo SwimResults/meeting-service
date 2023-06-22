@@ -2,10 +2,10 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/swimresults/meeting-service/model"
+	"github.com/swimresults/meeting-service/service"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/http"
-	"sr-meeting/meeting-service/model"
-	"sr-meeting/meeting-service/service"
 )
 
 func locationController() {

@@ -3,12 +3,12 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/swimresults/meeting-service/controller"
+	"github.com/swimresults/meeting-service/service"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 	"os"
-	"sr-meeting/meeting-service/controller"
-	"sr-meeting/meeting-service/service"
 	"time"
 )
 

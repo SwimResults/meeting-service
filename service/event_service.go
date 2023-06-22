@@ -3,12 +3,12 @@ package service
 import (
 	"context"
 	"errors"
+	"github.com/swimresults/meeting-service/model"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"sort"
-	"sr-meeting/meeting-service/model"
 	"time"
 )
 
@@ -131,6 +131,40 @@ func RemoveEventById(id primitive.ObjectID) error {
 		return err
 	}
 	return nil
+}
+
+func ImportEvent(event model.Event, styleName string, PartNumber int) (*model.Event, bool, error) {
+	// check if event with meeting and number exists
+	// if not, create
+	//		match style
+	//		find part
+	// 		set ordering
+	// else exit
+	existing, err := GetEventByMeetingAndNumber(event.Meeting, event.Number)
+	if err != nil {
+		if err.Error() == "no entry with given meeting and number found" {
+			// create
+			style, err2 := GetStyleByName(styleName)
+			if err2 != nil {
+				return nil, false, err2
+			}
+			event.Style = style
+
+			event.Part = model.MeetingPart{
+				Number: PartNumber,
+			}
+
+			event.Ordering = event.Number
+
+			newEvent, err3 := AddEvent(event)
+			if err3 != nil {
+				return nil, false, err3
+			}
+			return &newEvent, true, nil
+		}
+		return nil, false, err
+	}
+	return &existing, false, nil
 }
 
 func AddEvent(event model.Event) (model.Event, error) {

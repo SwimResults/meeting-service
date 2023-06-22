@@ -1,11 +1,13 @@
 package controller
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/swimresults/meeting-service/dto"
+	"github.com/swimresults/meeting-service/model"
+	"github.com/swimresults/meeting-service/service"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/http"
-	"sr-meeting/meeting-service/model"
-	"sr-meeting/meeting-service/service"
 	"strconv"
 )
 
@@ -15,8 +17,11 @@ func eventController() {
 	router.GET("/event/meet/:meet_id", getEventsByMeetId)
 	router.GET("/event/meet/:meet_id/parts", getEventsAsPartsByMeetId)
 	router.GET("/event/meet/:meet_id/event/:event_id", getEventByMeetingAndNumber)
-	router.DELETE("/event/:id", removeEvent)
+
 	router.POST("/event", addEvent)
+	router.POST("/event/import", importEvent)
+
+	router.DELETE("/event/:id", removeEvent)
 	router.PUT("/event", updateEvent)
 }
 
@@ -112,6 +117,27 @@ func removeEvent(c *gin.Context) {
 	}
 
 	c.IndentedJSON(http.StatusNoContent, "")
+}
+
+func importEvent(c *gin.Context) {
+	var request dto.ImportEventRequestDto
+	if err := c.BindJSON(&request); err != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
+
+	event, r, err := service.ImportEvent(request.Event, request.StyleName, request.MeetingPartNumber)
+	if err != nil {
+		fmt.Printf(err.Error())
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
+
+	if r {
+		c.IndentedJSON(http.StatusCreated, event)
+	} else {
+		c.IndentedJSON(http.StatusOK, event)
+	}
 }
 
 func addEvent(c *gin.Context) {
