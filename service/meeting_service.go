@@ -7,6 +7,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"time"
 )
 
@@ -22,7 +23,10 @@ func getMeetingsByBsonDocument(d primitive.D) ([]model.Meeting, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	cursor, err := meetingCollection.Find(ctx, d)
+	queryOptions := options.FindOptions{}
+	queryOptions.SetSort(bson.D{{"date_start", -1}})
+
+	cursor, err := meetingCollection.Find(ctx, d, &queryOptions)
 	if err != nil {
 		return []model.Meeting{}, err
 	}
