@@ -24,6 +24,7 @@ func Run() {
 	locationController()
 	styleController()
 	eventController()
+	fileController()
 
 	router.GET("/actuator", actuator)
 

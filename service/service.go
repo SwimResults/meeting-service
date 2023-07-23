@@ -19,6 +19,7 @@ func Init(c *mongo.Client) {
 	locationService(database)
 	styleService(database)
 	eventService(database)
+	fileService(database)
 }
 
 func PingDatabase() bool {
