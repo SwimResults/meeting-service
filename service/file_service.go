@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"errors"
+	"fmt"
 	"github.com/swimresults/meeting-service/model"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -98,6 +99,10 @@ func AddFile(file model.StorageFile) (model.StorageFile, error) {
 	file.AddedAt = time.Now()
 	file.UpdatedAt = time.Now()
 
+	if file.Path[0] != '/' {
+		file.Path = "/" + file.Path
+	}
+
 	r, err := fileCollection.InsertOne(ctx, file)
 	if err != nil {
 		return model.StorageFile{}, err
@@ -112,6 +117,10 @@ func UpdateFile(file model.StorageFile) (model.StorageFile, error) {
 
 	file.UpdatedAt = time.Now()
 
+	if file.Path[0] != '/' {
+		file.Path = "/" + file.Path
+	}
+
 	_, err := fileCollection.ReplaceOne(ctx, bson.D{{"_id", file.Identifier}}, file)
 	if err != nil {
 		return model.StorageFile{}, err
@@ -121,6 +130,10 @@ func UpdateFile(file model.StorageFile) (model.StorageFile, error) {
 }
 
 func IncrementDownloads(path string) (bool, error) {
+	if path[0] != '/' {
+		path = "/" + path
+	}
+	fmt.Printf("Incrementing downloads on file: '%s'\n", path)
 	files, err := getFilesByBsonDocument(bson.D{{"path", path}})
 	if err != nil {
 		return false, err
