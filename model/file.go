@@ -16,6 +16,7 @@ type StorageFile struct {
 	Hidden     bool               `json:"hidden,omitempty" bson:"hidden,omitempty"`
 	Existing   bool               `json:"existing,omitempty" bson:"existing,omitempty"`
 	Downloads  int                `json:"downloads,omitempty" bson:"downloads,omitempty"`
+	Ordering   int                `json:"ordering,omitempty" bson:"ordering,omitempty"`
 	AddedAt    time.Time          `json:"added_at,omitempty" bson:"added_at,omitempty"`
 	UpdatedAt  time.Time          `json:"updated_at,omitempty" bson:"updated_at,omitempty"`
 }
