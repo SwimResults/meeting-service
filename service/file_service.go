@@ -119,3 +119,25 @@ func UpdateFile(file model.StorageFile) (model.StorageFile, error) {
 
 	return GetFileById(file.Identifier)
 }
+
+func IncrementDownloads(path string) (bool, error) {
+	files, err := getFilesByBsonDocument(bson.D{{"path", path}})
+	if err != nil {
+		return false, err
+	}
+
+	if len(files) < 1 {
+		return false, nil
+	}
+
+	var file model.StorageFile
+	file = files[0]
+	file.Downloads++
+
+	_, err = UpdateFile(file)
+	if err != nil {
+		return true, err
+	}
+
+	return true, nil
+}

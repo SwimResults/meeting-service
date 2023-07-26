@@ -15,6 +15,7 @@ func fileController() {
 	router.GET("/file/meeting/:meeting/name/:name", getFileByNameAndMeeting)
 	router.DELETE("/file/:id", removeFile)
 	router.POST("/file", addFile)
+	router.POST("/file/increment", incrementDownloads)
 	router.PUT("/file", updateFile)
 }
 
@@ -126,4 +127,27 @@ func updateFile(c *gin.Context) {
 	}
 
 	c.IndentedJSON(http.StatusOK, r)
+}
+
+func incrementDownloads(c *gin.Context) {
+	data, err := c.GetRawData()
+	if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
+
+	path := string(data[:])
+
+	f, err2 := service.IncrementDownloads(path)
+	if err2 != nil {
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": err2.Error()})
+		return
+	}
+
+	if f {
+		c.Status(http.StatusOK)
+	} else {
+		c.Status(http.StatusNotFound)
+	}
+
 }
