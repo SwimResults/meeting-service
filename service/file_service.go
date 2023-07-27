@@ -99,7 +99,7 @@ func AddFile(file model.StorageFile) (model.StorageFile, error) {
 	file.AddedAt = time.Now()
 	file.UpdatedAt = time.Now()
 
-	if file.Path[0] != '/' {
+	if file.Path != "" && file.Path[0] != '/' {
 		file.Path = "/" + file.Path
 	}
 
@@ -117,7 +117,7 @@ func UpdateFile(file model.StorageFile) (model.StorageFile, error) {
 
 	file.UpdatedAt = time.Now()
 
-	if file.Path[0] != '/' {
+	if file.Path != "" && file.Path[0] != '/' {
 		file.Path = "/" + file.Path
 	}
 
@@ -130,6 +130,9 @@ func UpdateFile(file model.StorageFile) (model.StorageFile, error) {
 }
 
 func IncrementDownloads(path string) (bool, error) {
+	if path == "" {
+		return false, nil
+	}
 	if path[0] != '/' {
 		path = "/" + path
 	}
