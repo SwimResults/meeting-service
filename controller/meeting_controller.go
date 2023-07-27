@@ -13,6 +13,7 @@ func meetingController() {
 	router.GET("/meeting/:id", getMeeting)
 	router.GET("/meeting/meet/:meet_id", getMeetingByMeetId)
 	router.GET("/meeting/between/:date_start/:date_end", getMeetingWithDateBetween)
+
 	router.DELETE("/meeting/:id", removeMeeting)
 	router.POST("/meeting", addMeeting)
 	router.PUT("/meeting", updateMeeting)
