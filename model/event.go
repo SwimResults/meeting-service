@@ -16,6 +16,8 @@ type Event struct {
 	Style         Style              `json:"style,omitempty" bson:"-"`                                 // PDF + DSV
 	Final         EventFinal         `json:"final,omitempty" bson:"final,omitempty"`                   // manually
 	Part          MeetingPart        `json:"part,omitempty" bson:"part,omitempty"`                     // PDF + DSV
+	Finished      bool               `json:"finished,omitempty" bson:"finished,omitempty"`             // PDF + DSV + Livetiming
+	Certified     bool               `json:"certified,omitempty" bson:"certified,omitempty"`           // PDF + DSV ! used for result file links
 	Ordering      int                `json:"ordering,omitempty" bson:"ordering,omitempty"`             // automatically / manually
 	AddedAt       time.Time          `json:"added_at,omitempty" bson:"added_at,omitempty"`             // automatically
 	UpdatedAt     time.Time          `json:"updated_at,omitempty" bson:"updated_at,omitempty"`         // automatically
