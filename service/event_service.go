@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"errors"
+	"github.com/swimresults/meeting-service/dto"
 	"github.com/swimresults/meeting-service/model"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -79,6 +80,34 @@ func GetEventByMeetingAndNumber(id string, number int) (model.Event, error) {
 	}
 
 	return model.Event{}, errors.New("no entry with given meeting and number found")
+}
+
+func GetEventByMeetingAndNumberForLivetiming(id string, number int) (dto.EventLivetimingDto, error) {
+	events, err := getEventsByBsonDocument(bson.D{{"meeting", id}})
+	if err != nil {
+		return dto.EventLivetimingDto{}, err
+	}
+
+	if len(events) <= 0 {
+		return dto.EventLivetimingDto{}, errors.New("no entry with given meeting found")
+	}
+
+	var eventLivetiming dto.EventLivetimingDto
+
+	for i := 0; i < len(events); i++ {
+		if events[i].Number == number {
+			eventLivetiming.Event = events[i]
+			if i > 0 {
+				eventLivetiming.PrevEvent = events[i-1]
+			}
+			if i < len(events)-1 {
+				eventLivetiming.NextEvent = events[i+1]
+			}
+			break
+		}
+	}
+
+	return eventLivetiming, nil
 }
 
 func GetEventsAsPartsByMeetId(id string) ([]model.MeetingPart, error) {

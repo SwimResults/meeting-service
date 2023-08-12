@@ -17,6 +17,7 @@ func eventController() {
 	router.GET("/event/meet/:meet_id", getEventsByMeetId)
 	router.GET("/event/meet/:meet_id/parts", getEventsAsPartsByMeetId)
 	router.GET("/event/meet/:meet_id/event/:event_id", getEventByMeetingAndNumber)
+	router.GET("/event/meet/:meet_id/event/:event_id/livetiming", getEventByMeetingAndNumberForLivetiming)
 
 	router.POST("/event", addEvent)
 	router.POST("/event/import", importEvent)
@@ -95,6 +96,28 @@ func getEventByMeetingAndNumber(c *gin.Context) {
 	}
 
 	event, err := service.GetEventByMeetingAndNumber(id, eventId)
+	if err != nil {
+		c.IndentedJSON(http.StatusNotFound, gin.H{"message": err.Error()})
+		return
+	}
+
+	c.IndentedJSON(http.StatusOK, event)
+}
+
+func getEventByMeetingAndNumberForLivetiming(c *gin.Context) {
+	id := c.Param("meet_id")
+	if id == "" {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "given meet_id is empty"})
+		return
+	}
+
+	eventId, err := strconv.Atoi(c.Param("event_id"))
+	if err != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "event_id is not of type number"})
+		return
+	}
+
+	event, err := service.GetEventByMeetingAndNumberForLivetiming(id, eventId)
 	if err != nil {
 		c.IndentedJSON(http.StatusNotFound, gin.H{"message": err.Error()})
 		return
