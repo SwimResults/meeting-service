@@ -12,6 +12,8 @@ type Location struct {
 	City       string             `json:"city,omitempty" bson:"city,omitempty"`
 	PostalCode string             `json:"postal_code,omitempty" bson:"postal_code,omitempty"`
 	Name       string             `json:"name,omitempty" bson:"name,omitempty"`
+	Lanes      int                `json:"lanes,omitempty" bson:"lanes,omitempty"`
+	FirstLane  int                `json:"first_lane,omitempty" bson:"first_lane,omitempty"`
 	AddedAt    time.Time          `json:"added_at,omitempty" bson:"added_at,omitempty"`
 	UpdatedAt  time.Time          `json:"updated_at,omitempty" bson:"updated_at,omitempty"`
 }
