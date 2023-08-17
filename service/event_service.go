@@ -94,6 +94,7 @@ func GetEventByMeetingAndNumberForLivetiming(id string, number int) (dto.EventLi
 
 	var eventLivetiming dto.EventLivetimingDto
 
+	found := false
 	for i := 0; i < len(events); i++ {
 		if events[i].Number == number {
 			eventLivetiming.Event = events[i]
@@ -103,8 +104,21 @@ func GetEventByMeetingAndNumberForLivetiming(id string, number int) (dto.EventLi
 			if i < len(events)-1 {
 				eventLivetiming.NextEvent = events[i+1]
 			}
+			found = true
 			break
 		}
+		if events[i].Number > number {
+			eventLivetiming.NextEvent = events[i]
+			if i > 0 {
+				eventLivetiming.PrevEvent = events[i-1]
+			}
+			found = true
+			break
+		}
+	}
+
+	if !found {
+		eventLivetiming.PrevEvent = events[len(events)-1]
 	}
 
 	return eventLivetiming, nil
