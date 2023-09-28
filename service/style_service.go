@@ -68,7 +68,7 @@ func GetStyleByName(name string) (model.Style, error) {
 		return styles[0], nil
 	}
 
-	return model.Style{}, errors.New("no entry with given name found")
+	return model.Style{}, errors.New("no entry with given name '" + name + "' found")
 }
 
 func RemoveStyleById(id primitive.ObjectID) error {
