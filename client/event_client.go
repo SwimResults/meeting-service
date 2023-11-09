@@ -7,6 +7,7 @@ import (
 	"github.com/swimresults/meeting-service/model"
 	"github.com/swimresults/service-core/client"
 	"net/http"
+	"strconv"
 )
 
 type EventClient struct {
@@ -40,4 +41,26 @@ func (c *EventClient) ImportEvent(event model.Event, styleName string, PartNumbe
 		return nil, false, fmt.Errorf("import event request returned: %d", res.StatusCode)
 	}
 	return newEvent, res.StatusCode == http.StatusCreated, nil
+}
+
+func (c *EventClient) GetEventByMeetingAndNumber(meeting string, number int) (*model.Event, error) {
+	fmt.Printf("request '%s'\n", c.apiUrl+"/event/meet/"+meeting+"/event/"+strconv.Itoa(number))
+
+	res, err := client.Get(c.apiUrl, "event/meet/"+meeting+"/event/"+strconv.Itoa(number), nil)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("GetAthleteByNameAndYear received error: %d\n", res.StatusCode)
+	}
+
+	event := &model.Event{}
+	err = json.NewDecoder(res.Body).Decode(event)
+	if err != nil {
+		return nil, err
+	}
+
+	return event, nil
 }
