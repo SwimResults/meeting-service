@@ -21,6 +21,7 @@ func eventController() {
 
 	router.POST("/event", addEvent)
 	router.POST("/event/import", importEvent)
+	router.POST("/event/meet/:meet_id/event/:event_id/certification", updateEventCertification)
 
 	router.DELETE("/event/:id", removeEvent)
 	router.PUT("/event", updateEvent)
@@ -193,4 +194,41 @@ func updateEvent(c *gin.Context) {
 	}
 
 	c.IndentedJSON(http.StatusOK, r)
+}
+
+func updateEventCertification(c *gin.Context) {
+	var request dto.EventCertificationRequestDto
+	if err := c.BindJSON(&request); err != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
+
+	meetId := c.Param("meet_id")
+	if meetId == "" {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "given meet_id is empty"})
+		return
+	}
+
+	eventId, err := strconv.Atoi(c.Param("event_id"))
+	if err != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "event_id is not of type number"})
+		return
+	}
+
+	var event model.Event
+	var err1 error
+
+	if request.ToggleCertification {
+		event, err1 = service.ToggleEventCertification(meetId, eventId)
+	} else {
+		event, err1 = service.UpdateEventCertification(meetId, eventId, request.Certified)
+	}
+
+	if err1 != nil {
+		fmt.Printf(err1.Error())
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": err1.Error()})
+		return
+	}
+
+	c.IndentedJSON(http.StatusOK, event)
 }

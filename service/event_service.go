@@ -246,3 +246,25 @@ func UpdateEvent(event model.Event) (model.Event, error) {
 
 	return GetEventById(event.Identifier)
 }
+
+func UpdateEventCertification(meeting string, eventNumber int, certified bool) (model.Event, error) {
+	event, err := GetEventByMeetingAndNumber(meeting, eventNumber)
+	if err != nil {
+		return model.Event{}, err
+	}
+
+	event.Certified = certified
+
+	return UpdateEvent(event)
+}
+
+func ToggleEventCertification(meeting string, eventNumber int) (model.Event, error) {
+	event, err := GetEventByMeetingAndNumber(meeting, eventNumber)
+	if err != nil {
+		return model.Event{}, err
+	}
+
+	event.Certified = !event.Certified
+
+	return UpdateEvent(event)
+}
