@@ -73,8 +73,8 @@ func GetAgeGroupsByMeetingAndEvent(meeting string, event int) ([]model.AgeGroup,
 	return getAgeGroupsByBsonDocument(bson.D{{"meeting", meeting}, {"event", event}})
 }
 
-func GetAgeGroupByMeetingAndEventAndAges(meeting string, event int, minAge string, maxAge string) (model.AgeGroup, error) {
-	return getAgeGroupByBsonDocument(bson.D{{"meeting", meeting}, {"event", event}, {"min_age", minAge}, {"max_age", maxAge}})
+func GetAgeGroupByMeetingAndEventAndAgesAndGender(meeting string, event int, minAge string, maxAge string, gender string) (model.AgeGroup, error) {
+	return getAgeGroupByBsonDocument(bson.D{{"meeting", meeting}, {"event", event}, {"min_age", minAge}, {"max_age", maxAge}, {"gender", gender}})
 }
 
 func GetAgeGroupById(id primitive.ObjectID) (model.AgeGroup, error) {
@@ -103,7 +103,7 @@ func RemoveAgeGroupById(id primitive.ObjectID) error {
 }
 
 func ImportAgeGroup(group model.AgeGroup) (*model.AgeGroup, bool, error) {
-	existing, err := GetAgeGroupByMeetingAndEventAndAges(group.Meeting, group.Event, group.MinAge, group.MaxAge)
+	existing, err := GetAgeGroupByMeetingAndEventAndAgesAndGender(group.Meeting, group.Event, group.MinAge, group.MaxAge, group.Gender)
 	if err != nil {
 		if err.Error() != ageGroupNotFoundError {
 			return nil, false, err
