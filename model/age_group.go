@@ -10,6 +10,7 @@ type AgeGroup struct {
 	Meeting    string             `json:"meeting,omitempty" bson:"meeting,omitempty"`
 	Event      int                `json:"event,omitempty" bson:"event,omitempty"`     // 15
 	Default    bool               `json:"default,omitempty" bson:"default,omitempty"` // false
+	Gender     string             `json:"gender,omitempty" bson:"gender,omitempty"`   // MALE, FEMALE, MIXED
 	MinAge     string             `json:"min_age,omitempty" bson:"min_age,omitempty"` // 2004
 	MaxAge     string             `json:"max_age,omitempty" bson:"max_age,omitempty"` // 2002
 	Ages       []string           `json:"ages,omitempty" bson:"ages,omitempty"`       // 2002, 2003, 2004
