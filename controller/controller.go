@@ -25,6 +25,7 @@ func Run() {
 	styleController()
 	eventController()
 	fileController()
+	ageGroupController()
 
 	router.GET("/actuator", actuator)
 
