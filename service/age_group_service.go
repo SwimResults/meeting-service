@@ -113,7 +113,7 @@ func ImportAgeGroup(group model.AgeGroup) (*model.AgeGroup, bool, error) {
 		if err2 != nil {
 			return nil, false, err2
 		}
-		return &newGroup, false, nil
+		return &newGroup, true, nil
 	}
 
 	group.Identifier = existing.Identifier
