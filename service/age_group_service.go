@@ -176,6 +176,6 @@ func SetAgesForAgeGroup(group *model.AgeGroup) {
 		if i < 1900 || i > 2050 {
 			continue
 		}
-		group.Ages = append(group.Ages, strconv.Itoa(i))
+		group.Ages = append(group.Ages, i)
 	}
 }
