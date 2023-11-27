@@ -16,5 +16,5 @@ func TestSetAgesForAgeGroup(t *testing.T) {
 
 	SetAgesForAgeGroup(&group)
 
-	assert.Equal(t, []string{"2002", "2003", "2004"}, group.Ages)
+	assert.Equal(t, []int{2002, 2003, 2004}, group.Ages)
 }

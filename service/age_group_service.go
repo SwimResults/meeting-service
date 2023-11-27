@@ -27,7 +27,7 @@ func getAgeGroupsByBsonDocument(d primitive.D) ([]model.AgeGroup, error) {
 	defer cancel()
 
 	queryOptions := options.FindOptions{}
-	queryOptions.SetSort(bson.D{{"min_age", 1}})
+	queryOptions.SetSort(bson.D{{"min_age", -1}})
 
 	cursor, err := ageGroupCollection.Find(ctx, d, &queryOptions)
 	if err != nil {
@@ -113,7 +113,7 @@ func ImportAgeGroup(group model.AgeGroup) (*model.AgeGroup, bool, error) {
 		if err2 != nil {
 			return nil, false, err2
 		}
-		return &newGroup, false, nil
+		return &newGroup, true, nil
 	}
 
 	group.Identifier = existing.Identifier
@@ -176,6 +176,6 @@ func SetAgesForAgeGroup(group *model.AgeGroup) {
 		if i < 1900 || i > 2050 {
 			continue
 		}
-		group.Ages = append(group.Ages, strconv.Itoa(i))
+		group.Ages = append(group.Ages, i)
 	}
 }
