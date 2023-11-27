@@ -27,7 +27,7 @@ func getAgeGroupsByBsonDocument(d primitive.D) ([]model.AgeGroup, error) {
 	defer cancel()
 
 	queryOptions := options.FindOptions{}
-	queryOptions.SetSort(bson.D{{"min_age", 1}})
+	queryOptions.SetSort(bson.D{{"min_age", -1}})
 
 	cursor, err := ageGroupCollection.Find(ctx, d, &queryOptions)
 	if err != nil {
