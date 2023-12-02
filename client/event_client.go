@@ -44,7 +44,7 @@ func (c *EventClient) ImportEvent(event model.Event, styleName string, PartNumbe
 }
 
 func (c *EventClient) GetEventByMeetingAndNumber(meeting string, number int) (*model.Event, error) {
-	fmt.Printf("request '%s'\n", c.apiUrl+"/event/meet/"+meeting+"/event/"+strconv.Itoa(number))
+	fmt.Printf("request '%s'\n", c.apiUrl+"event/meet/"+meeting+"/event/"+strconv.Itoa(number))
 
 	res, err := client.Get(c.apiUrl, "event/meet/"+meeting+"/event/"+strconv.Itoa(number), nil)
 	if err != nil {
