@@ -21,6 +21,7 @@ func Init(c *mongo.Client) {
 	eventService(database)
 	fileService(database)
 	ageGroupService(database)
+	incidentService(database)
 }
 
 func PingDatabase() bool {
