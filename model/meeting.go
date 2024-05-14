@@ -15,6 +15,7 @@ type Meeting struct {
 	SeriesId    primitive.ObjectID `json:"-" bson:"series_id,omitempty"`
 	Series      MeetingSeries      `json:"series,omitempty" bson:"-"`
 	Iteration   int                `json:"iteration,omitempty" bson:"iteration,omitempty"`
+	TitleName   string             `json:"title_name,omitempty" bson:"title_name,omitempty"`
 	State       string             `json:"state,omitempty" bson:"state,omitempty"` // options: HIDDEN; ANNOUNCED; PREPARATION; OPENING; RUNNING; BREAK; PAUSE; FINAL; OVER; ARCHIVED;
 	Unpublished bool               `json:"unpublished,omitempty" bson:"unpublished,omitempty"`
 	MeetId      string             `json:"meet_id,omitempty" bson:"meet_id,omitempty"`
