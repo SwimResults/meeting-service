@@ -16,6 +16,7 @@ type Event struct {
 	Style         Style              `json:"style,omitempty" bson:"-"`                                 // PDF + DSV
 	Final         EventFinal         `json:"final,omitempty" bson:"final,omitempty"`                   // manually
 	Part          MeetingPart        `json:"part,omitempty" bson:"part,omitempty"`                     // PDF + DSV
+	NameExtension string             `json:"name_extension,omitempty" bson:"name_extension,omitempty"` // manually ! used for example for master "Masters"
 	Finished      bool               `json:"finished,omitempty" bson:"finished,omitempty"`             // PDF + DSV + Livetiming
 	Certified     bool               `json:"certified,omitempty" bson:"certified,omitempty"`           // PDF + DSV ! used for result file links
 	NoStartList   bool               `json:"no_start_list,omitempty" bson:"no_start_list,omitempty"`   // manually ! used for start list file links
