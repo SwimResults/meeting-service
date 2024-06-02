@@ -197,7 +197,9 @@ func ImportEvent(event model.Event, styleName string, PartNumber int) (*model.Ev
 				Number: PartNumber,
 			}
 
-			event.Ordering = event.Number
+			if event.Ordering == 0 {
+				event.Ordering = event.Number
+			}
 
 			newEvent, err3 := AddEvent(event)
 			if err3 != nil {
