@@ -126,8 +126,8 @@ func UpdateIncidentDateByMeeting(meeting string, t time.Time, updateTimeZone boo
 			tz2 = t2.Location()
 		}
 
-		incident.End = time.Date(t.Year(), t.Month(), t.Day(), t1.Hour(), t1.Minute(), t1.Second(), t1.Nanosecond(), tz1)
-		incident.Start = time.Date(t.Year(), t.Month(), t.Day(), t2.Hour(), t2.Minute(), t2.Second(), t2.Nanosecond(), tz2)
+		incident.End = time.Date(t1.Year(), t1.Month(), t1.Day(), t1.Hour(), t1.Minute(), t1.Second(), t1.Nanosecond(), tz1)
+		incident.Start = time.Date(t2.Year(), t2.Month(), t2.Day(), t2.Hour(), t2.Minute(), t2.Second(), t2.Nanosecond(), tz2)
 
 		saved, err := UpdateIncident(incident)
 		if err != nil {
