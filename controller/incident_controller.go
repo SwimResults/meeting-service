@@ -2,6 +2,7 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/swimresults/meeting-service/dto"
 	"github.com/swimresults/meeting-service/model"
 	"github.com/swimresults/meeting-service/service"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -15,6 +16,8 @@ func incidentController() {
 	router.DELETE("/incident/:id", removeIncident)
 	router.POST("/incident", addIncident)
 	router.PUT("/incident", updateIncident)
+
+	router.POST("/incident/meet/:meet_id/change_date", updateIncidentDatesByMeeting)
 }
 
 func getIncidentByMeeting(c *gin.Context) {
@@ -94,4 +97,27 @@ func updateIncident(c *gin.Context) {
 	}
 
 	c.IndentedJSON(http.StatusOK, r)
+}
+
+func updateIncidentDatesByMeeting(c *gin.Context) {
+	meeting := c.Param("meet_id")
+
+	if meeting == "" {
+		c.String(http.StatusBadRequest, "no meeting id given")
+		return
+	}
+
+	var request dto.IncidentDateRequest
+	if err := c.BindJSON(&request); err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
+
+	info, err := service.UpdateIncidentDateByMeeting(meeting, request.Time, request.UpdateTimeZone)
+	if err != nil {
+		c.IndentedJSON(http.StatusNotFound, gin.H{"message": err.Error()})
+		return
+	}
+
+	c.IndentedJSON(http.StatusOK, info)
 }
