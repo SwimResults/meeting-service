@@ -102,3 +102,40 @@ func UpdateIncident(incident model.Incident) (model.Incident, error) {
 
 	return GetIncidentById(incident.Identifier)
 }
+
+func UpdateIncidentDateByMeeting(meeting string, t time.Time, updateTimeZone bool) ([]model.Incident, error) {
+	incidents, err := GetIncidentsByMeeting(meeting)
+
+	if err != nil {
+		return []model.Incident{}, err
+	}
+
+	var savedIncidents []model.Incident
+
+	for _, incident := range incidents {
+		t1 := incident.Start
+		t2 := incident.End
+
+		var tz1 *time.Location
+		var tz2 *time.Location
+		if updateTimeZone {
+			tz1 = t.Location()
+			tz2 = t.Location()
+		} else {
+			tz1 = t1.Location()
+			tz2 = t2.Location()
+		}
+
+		incident.End = time.Date(t.Year(), t.Month(), t.Day(), t1.Hour(), t1.Minute(), t1.Second(), t1.Nanosecond(), tz1)
+		incident.Start = time.Date(t.Year(), t.Month(), t.Day(), t2.Hour(), t2.Minute(), t2.Second(), t2.Nanosecond(), tz2)
+
+		saved, err := UpdateIncident(incident)
+		if err != nil {
+			return []model.Incident{}, err
+		}
+
+		savedIncidents = append(savedIncidents, saved)
+	}
+
+	return savedIncidents, nil
+}
