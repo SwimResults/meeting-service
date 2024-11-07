@@ -13,4 +13,6 @@ type MeetingData struct {
 	FtpStartListMask  string    `json:"ftp_start_list_mask,omitempty" bson:"ftp_start_list_mask,omitempty"`
 	FtpResultListMask string    `json:"ftp_result_list_mask,omitempty" bson:"ftp_result_list_mask,omitempty"`
 	Sponsors          []Sponsor `json:"sponsors,omitempty" bson:"sponsors,omitempty"`
+	PushNotificationChannel string `json:"push_notification_channel,omitempty" bson:"push_notification_channel,omitempty"`
+
 }
