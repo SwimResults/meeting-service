@@ -17,7 +17,7 @@ func NewMeetingClient(url string) *MeetingClient {
 }
 
 func (c *MeetingClient) GetMeetingById(id string) (*model.Meeting, error) {
-	fmt.Printf("request '%s'\n", c.apiUrl+"meeting/"+id)
+	fmt.Printf("request '%s'\n", c.apiUrl+"meeting/meet/"+id)
 
 	res, err := client.Get(c.apiUrl, "meeting/"+id, nil)
 	if err != nil {
