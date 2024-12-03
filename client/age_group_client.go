@@ -23,7 +23,7 @@ func (c *AgeGroupClient) ImportAgeGroup(ageGroup model.AgeGroup) (*model.AgeGrou
 		AgeGroup: ageGroup,
 	}
 
-	res, err := client.Post(c.apiUrl, "age_group/import", request)
+	res, err := client.Post(c.apiUrl, "age_group/import", request, nil)
 	if err != nil {
 		return nil, false, err
 	}
@@ -44,7 +44,7 @@ func (c *AgeGroupClient) ImportAgeGroup(ageGroup model.AgeGroup) (*model.AgeGrou
 func (c *AgeGroupClient) GetAgeGroupsForMeetingAndEvent(meeting string, number int) (*[]model.AgeGroup, error) {
 	fmt.Printf("request '%s'\n", c.apiUrl+"/age_group/meet/"+meeting+"/event/"+strconv.Itoa(number))
 
-	res, err := client.Get(c.apiUrl, "age_group/meet/"+meeting+"/event/"+strconv.Itoa(number), nil)
+	res, err := client.Get(c.apiUrl, "age_group/meet/"+meeting+"/event/"+strconv.Itoa(number), nil, nil)
 	if err != nil {
 		return nil, err
 	}
