@@ -37,3 +37,25 @@ func (c *MeetingClient) GetMeetingById(id string) (*model.Meeting, error) {
 
 	return meeting, nil
 }
+
+func (c *MeetingClient) GetMeetings() ([]model.Meeting, error) {
+	fmt.Printf("request '%s'\n", c.apiUrl+"meeting")
+
+	res, err := client.Get(c.apiUrl, "meeting", nil, nil)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("GetMeetingById received error: %d\n", res.StatusCode)
+	}
+
+	var meetings []model.Meeting
+	err = json.NewDecoder(res.Body).Decode(&meetings)
+	if err != nil {
+		return nil, err
+	}
+
+	return meetings, nil
+}
