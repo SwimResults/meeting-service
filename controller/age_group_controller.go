@@ -113,7 +113,7 @@ func importAgeGroup(c *gin.Context) {
 
 	ageGroup, r, err := service.ImportAgeGroup(request.AgeGroup)
 	if err != nil {
-		fmt.Printf(err.Error())
+		fmt.Println(err)
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
 	}

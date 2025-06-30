@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/swimresults/meeting-service/service"
+	ginprometheus "github.com/zsais/go-gin-prometheus"
 	"net/http"
 	"os"
 )
@@ -18,6 +19,11 @@ func Run() {
 		fmt.Println("no application port given! Please set SR_MEETING_PORT.")
 		return
 	}
+
+	p := ginprometheus.NewWithConfig(ginprometheus.Config{
+		Subsystem: "gin",
+	})
+	p.Use(router)
 
 	meetingController()
 	meetingSeriesController()
