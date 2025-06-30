@@ -18,7 +18,7 @@ package client
 //
 //	r, _, e := client.ImportEvent(event, "Schmetterling", 1)
 //	if e != nil {
-//		fmt.Printf(e.Error())
+//		fmt.Println(e)
 //	}
 //	fmt.Println(r)
 //}
@@ -28,7 +28,7 @@ package client
 //
 //	r, e := client.GetEventByMeetingAndNumber("IESC22", 13)
 //	if e != nil {
-//		fmt.Printf(e.Error())
+//		fmt.Println(e)
 //	}
 //	fmt.Println(r)
 //}

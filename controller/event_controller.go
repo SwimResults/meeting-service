@@ -152,7 +152,7 @@ func importEvent(c *gin.Context) {
 
 	event, r, err := service.ImportEvent(request.Event, request.StyleName, request.MeetingPartNumber)
 	if err != nil {
-		fmt.Printf(err.Error())
+		fmt.Println(err)
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
 	}
@@ -225,7 +225,7 @@ func updateEventCertification(c *gin.Context) {
 	}
 
 	if err1 != nil {
-		fmt.Printf(err1.Error())
+		fmt.Println(err1)
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": err1.Error()})
 		return
 	}
