@@ -12,6 +12,7 @@ type MeetingData struct {
 	HasFtpResultList        bool      `json:"has_ftp_result_list,omitempty" bson:"has_ftp_result_list,omitempty"`
 	FtpStartListMask        string    `json:"ftp_start_list_mask,omitempty" bson:"ftp_start_list_mask,omitempty"`
 	FtpResultListMask       string    `json:"ftp_result_list_mask,omitempty" bson:"ftp_result_list_mask,omitempty"`
+	HasCertificates         bool      `json:"has_certificates,omitempty" bson:"has_certificates,omitempty"`
 	Sponsors                []Sponsor `json:"sponsors,omitempty" bson:"sponsors,omitempty"`
 	PushNotificationChannel string    `json:"push_notification_channel,omitempty" bson:"push_notification_channel,omitempty"`
 }
