@@ -58,3 +58,5 @@
     [GIN-debug] DELETE /age_group/:id            --> github.com/swimresults/meeting-service/controller.removeAgeGroup (3 handlers)
     [GIN-debug] PUT    /age_group                --> github.com/swimresults/meeting-service/controller.updateAgeGroup (3 handlers)
     [GIN-debug] GET    /actuator                 --> github.com/swimresults/meeting-service/controller.actuator (3 handlers)
+
+© Copyright 2022-2025 - SwimResults & Konrad Weiß
