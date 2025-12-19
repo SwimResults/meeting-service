@@ -77,6 +77,10 @@ func GetAgeGroupByMeetingAndEventAndAgesAndGender(meeting string, event int, min
 	return getAgeGroupByBsonDocument(bson.D{{"meeting", meeting}, {"event", event}, {"min_age", minAge}, {"max_age", maxAge}, {"gender", gender}})
 }
 
+func GetAgeGroupByMeetingAndEventAndAges(meeting string, event int, minAge string, maxAge string) (model.AgeGroup, error) {
+	return getAgeGroupByBsonDocument(bson.D{{"meeting", meeting}, {"event", event}, {"min_age", minAge}, {"max_age", maxAge}})
+}
+
 func GetAgeGroupById(id primitive.ObjectID) (model.AgeGroup, error) {
 	ageGroups, err := getAgeGroupsByBsonDocument(bson.D{{"_id", id}})
 	if err != nil {
@@ -103,7 +107,7 @@ func RemoveAgeGroupById(id primitive.ObjectID) error {
 }
 
 func ImportAgeGroup(group model.AgeGroup) (*model.AgeGroup, bool, error) {
-	existing, err := GetAgeGroupByMeetingAndEventAndAgesAndGender(group.Meeting, group.Event, group.MinAge, group.MaxAge, group.Gender)
+	existing, err := GetAgeGroupByMeetingAndEventAndAges(group.Meeting, group.Event, group.MinAge, group.MaxAge)
 	if err != nil {
 		if err.Error() != ageGroupNotFoundError {
 			return nil, false, err
@@ -116,9 +120,15 @@ func ImportAgeGroup(group model.AgeGroup) (*model.AgeGroup, bool, error) {
 		return &newGroup, true, nil
 	}
 
-	group.Identifier = existing.Identifier
+	if group.Name != "" {
+		existing.Name = group.Name
+	}
 
-	newGroup, err := UpdateAgeGroup(group)
+	if group.Gender != "UNSET" {
+		existing.Gender = group.Gender
+	}
+
+	newGroup, err := UpdateAgeGroup(existing)
 	if err != nil {
 		return nil, false, err
 	}
