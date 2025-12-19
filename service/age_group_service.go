@@ -182,6 +182,7 @@ func SetAgesForAgeGroup(group *model.AgeGroup) {
 		max = a
 	}
 
+	group.Ages = []int{}
 	for i := min; i <= max; i++ {
 		if i < 1900 || i > 2050 {
 			continue
