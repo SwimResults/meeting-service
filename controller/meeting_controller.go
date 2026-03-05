@@ -20,7 +20,17 @@ func meetingController() {
 }
 
 func getMeetings(c *gin.Context) {
-	meetings, err := service.GetMeetings()
+	search := c.Query("search")
+
+	var meetings []model.Meeting
+	var err error
+
+	if search != "" {
+		meetings, err = service.GetMeetingsBySearch(search)
+	} else {
+		meetings, err = service.GetMeetings()
+	}
+
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return

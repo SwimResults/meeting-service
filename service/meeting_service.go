@@ -8,6 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"strings"
 	"time"
 )
 
@@ -60,6 +61,30 @@ func getMeetingsByBsonDocument(d primitive.D) ([]model.Meeting, error) {
 
 func GetMeetings() ([]model.Meeting, error) {
 	return getMeetingsByBsonDocument(bson.D{})
+}
+
+func GetMeetingsBySearch(search string) ([]model.Meeting, error) {
+	meetings, err := GetMeetings()
+	if err != nil {
+		return []model.Meeting{}, err
+	}
+
+	search = strings.ToLower(strings.TrimSpace(search))
+	if search == "" {
+		return meetings, nil
+	}
+
+	result := make([]model.Meeting, 0)
+	for _, meeting := range meetings {
+		nameFull := strings.ToLower(meeting.Series.NameFull)
+		meetId := strings.ToLower(meeting.MeetId)
+
+		if strings.Contains(nameFull, search) || strings.Contains(meetId, search) {
+			result = append(result, meeting)
+		}
+	}
+
+	return result, nil
 }
 
 func GetMeetingById(id primitive.ObjectID) (model.Meeting, error) {
