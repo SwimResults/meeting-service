@@ -1,8 +1,9 @@
 package model
 
 import (
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"time"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type Meeting struct {
@@ -17,6 +18,7 @@ type Meeting struct {
 	Iteration   int                `json:"iteration,omitempty" bson:"iteration,omitempty"`
 	Subtitles   []string           `json:"subtitles,omitempty" bson:"subtitles,omitempty"`
 	Warnings    []string           `json:"warnings,omitempty" bson:"warnings,omitempty"`
+	Tags        []string           `json:"tags,omitempty" bson:"tags,omitempty"`
 	State       string             `json:"state,omitempty" bson:"state,omitempty"` // options: HIDDEN; ANNOUNCED; PREPARATION; OPENING; RUNNING; BREAK; PAUSE; FINAL; OVER; ARCHIVED;
 	Unpublished bool               `json:"unpublished,omitempty" bson:"unpublished,omitempty"`
 	MeetId      string             `json:"meet_id,omitempty" bson:"meet_id,omitempty"`
