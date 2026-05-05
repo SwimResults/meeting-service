@@ -64,3 +64,25 @@ func (c *EventClient) GetEventByMeetingAndNumber(meeting string, number int) (*m
 
 	return event, nil
 }
+
+func (c *EventClient) GetEventsByMeetId(meeting string) (*[]model.Event, error) {
+	fmt.Printf("request '%s'\n", c.apiUrl+"event/meet/"+meeting)
+
+	res, err := client.Get(c.apiUrl, "event/meet/"+meeting, nil, nil)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("GetEventsByMeetId received error: %d\n", res.StatusCode)
+	}
+
+	events := &[]model.Event{}
+	err = json.NewDecoder(res.Body).Decode(events)
+	if err != nil {
+		return nil, err
+	}
+
+	return events, nil
+}

@@ -3,13 +3,15 @@ package client
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
+	"strconv"
+
 	"github.com/swimresults/meeting-service/dto"
 	"github.com/swimresults/meeting-service/model"
 	"github.com/swimresults/service-core/client"
-	"net/http"
-	"strconv"
 )
 
+// AgeGroupClient is deprecated: moved to start service as ranking
 type AgeGroupClient struct {
 	apiUrl string
 }
