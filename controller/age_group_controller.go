@@ -2,15 +2,17 @@ package controller
 
 import (
 	"fmt"
+	"net/http"
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 	"github.com/swimresults/meeting-service/dto"
 	"github.com/swimresults/meeting-service/model"
 	"github.com/swimresults/meeting-service/service"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"net/http"
-	"strconv"
 )
 
+// ageGroupController is deprecated: moved to start service as ranking
 func ageGroupController() {
 	router.GET("/age_group", getAgeGroups)
 	router.GET("/age_group/:id", getAgeGroup)

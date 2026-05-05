@@ -3,14 +3,17 @@ package service
 import (
 	"context"
 	"errors"
+	"strconv"
+	"time"
+
 	"github.com/swimresults/meeting-service/model"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"strconv"
-	"time"
 )
+
+// deprecated: moved to start service as ranking
 
 var ageGroupCollection *mongo.Collection
 
