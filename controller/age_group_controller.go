@@ -9,6 +9,7 @@ import (
 	"github.com/swimresults/meeting-service/dto"
 	"github.com/swimresults/meeting-service/model"
 	"github.com/swimresults/meeting-service/service"
+	"github.com/swimresults/service-core/security"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -19,12 +20,12 @@ func ageGroupController() {
 	router.GET("/age_group/meet/:meet_id", getAgeGroupsByMeeting)
 	router.GET("/age_group/meet/:meet_id/event/:event_id", getAgeGroupByMeetingAndEvent)
 
-	router.POST("/age_group", addAgeGroup)
-	router.POST("/age_group/import", importAgeGroup)
+	security.Route(router, "POST", "/age_group", security.PermissionMeeting, addAgeGroup)
+	security.Route(router, "POST", "/age_group/import", security.PermissionMeeting, importAgeGroup)
 
-	router.DELETE("/age_group/:id", removeAgeGroup)
+	security.Route(router, "DELETE", "/age_group/:id", security.PermissionMeeting, removeAgeGroup)
 
-	router.PUT("/age_group", updateAgeGroup)
+	security.Route(router, "PUT", "/age_group", security.PermissionMeeting, updateAgeGroup)
 }
 
 func getAgeGroups(c *gin.Context) {

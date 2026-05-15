@@ -5,6 +5,7 @@ import (
 	"github.com/swimresults/meeting-service/dto"
 	"github.com/swimresults/meeting-service/model"
 	"github.com/swimresults/meeting-service/service"
+	"github.com/swimresults/service-core/security"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/http"
 )
@@ -13,11 +14,11 @@ func incidentController() {
 	router.GET("/incident/:id", getIncident)
 	router.GET("/incident/meet/:meeting", getIncidentByMeeting)
 
-	router.DELETE("/incident/:id", removeIncident)
-	router.POST("/incident", addIncident)
-	router.PUT("/incident", updateIncident)
+	security.Route(router, "DELETE", "/incident/:id", security.PermissionMeeting, removeIncident)
+	security.Route(router, "POST", "/incident", security.PermissionMeeting, addIncident)
+	security.Route(router, "PUT", "/incident", security.PermissionMeeting, updateIncident)
 
-	router.POST("/incident/meet/:meet_id/change_date", updateIncidentDatesByMeeting)
+	security.Route(router, "POST", "/incident/meet/:meet_id/change_date", security.PermissionMeeting, updateIncidentDatesByMeeting)
 }
 
 func getIncidentByMeeting(c *gin.Context) {

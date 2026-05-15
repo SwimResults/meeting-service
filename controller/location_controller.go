@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/swimresults/meeting-service/model"
 	"github.com/swimresults/meeting-service/service"
+	"github.com/swimresults/service-core/security"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/http"
 )
@@ -11,9 +12,9 @@ import (
 func locationController() {
 	router.GET("/location", getLocations)
 	router.GET("/location/:id", getLocation)
-	router.POST("/location", addLocation)
-	router.PUT("/location", updateLocation)
-	router.DELETE("/location/:id", removeLocation)
+	security.Route(router, "POST", "/location", security.PermissionMeeting, addLocation)
+	security.Route(router, "PUT", "/location", security.PermissionMeeting, updateLocation)
+	security.Route(router, "DELETE", "/location/:id", security.PermissionMeeting, removeLocation)
 }
 
 func getLocations(c *gin.Context) {

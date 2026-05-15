@@ -6,6 +6,7 @@ import (
 	"github.com/swimresults/meeting-service/dto"
 	"github.com/swimresults/meeting-service/model"
 	"github.com/swimresults/meeting-service/service"
+	"github.com/swimresults/service-core/security"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/http"
 	"strconv"
@@ -19,12 +20,12 @@ func eventController() {
 	router.GET("/event/meet/:meet_id/event/:event_id", getEventByMeetingAndNumber)
 	router.GET("/event/meet/:meet_id/event/:event_id/livetiming", getEventByMeetingAndNumberForLivetiming)
 
-	router.POST("/event", addEvent)
-	router.POST("/event/import", importEvent)
-	router.POST("/event/meet/:meet_id/event/:event_id/certification", updateEventCertification)
+	security.Route(router, "POST", "/event", security.PermissionMeeting, addEvent)
+	security.Route(router, "POST", "/event/import", security.PermissionMeeting, importEvent)
+	security.Route(router, "POST", "/event/meet/:meet_id/event/:event_id/certification", security.PermissionMeeting, updateEventCertification)
 
-	router.DELETE("/event/:id", removeEvent)
-	router.PUT("/event", updateEvent)
+	security.Route(router, "DELETE", "/event/:id", security.PermissionMeeting, removeEvent)
+	security.Route(router, "PUT", "/event", security.PermissionMeeting, updateEvent)
 }
 
 func getEvents(c *gin.Context) {

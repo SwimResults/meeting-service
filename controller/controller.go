@@ -2,11 +2,13 @@ package controller
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/swimresults/meeting-service/service"
-	ginprometheus "github.com/zsais/go-gin-prometheus"
 	"net/http"
 	"os"
+
+	"github.com/gin-gonic/gin"
+	"github.com/swimresults/meeting-service/service"
+	"github.com/swimresults/service-core/security"
+	ginprometheus "github.com/zsais/go-gin-prometheus"
 )
 
 var router = gin.Default()
@@ -20,10 +22,18 @@ func Run() {
 		return
 	}
 
+	// Initialize authorization middleware
+	security.InitAuthMiddleware(&security.AuthMiddlewareConfig{
+		ServiceKey:    os.Getenv("SR_SERVICE_KEY"),
+		ExcludedPaths: []string{"/actuator"},
+	})
+
 	p := ginprometheus.NewWithConfig(ginprometheus.Config{
 		Subsystem: "gin",
 	})
 	p.Use(router)
+
+	router.Use(security.AuthMiddleware())
 
 	meetingController()
 	meetingSeriesController()

@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/swimresults/meeting-service/model"
 	"github.com/swimresults/meeting-service/service"
+	"github.com/swimresults/service-core/security"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/http"
 )
@@ -13,10 +14,10 @@ func fileController() {
 	router.GET("/file/:id", getFile)
 	router.GET("/file/meeting/list/:meeting", getFileListByMeeting)
 	router.GET("/file/meeting/:meeting/name/:name", getFileByNameAndMeeting)
-	router.DELETE("/file/:id", removeFile)
-	router.POST("/file", addFile)
-	router.POST("/file/increment", incrementDownloads)
-	router.PUT("/file", updateFile)
+	security.Route(router, "DELETE", "/file/:id", security.PermissionMeeting, removeFile)
+	security.Route(router, "POST", "/file", security.PermissionMeeting, addFile)
+	security.Route(router, "POST", "/file/increment", security.PermissionMeeting, incrementDownloads)
+	security.Route(router, "PUT", "/file", security.PermissionMeeting, updateFile)
 }
 
 func getFiles(c *gin.Context) {
