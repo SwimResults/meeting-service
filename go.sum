@@ -95,6 +95,8 @@ github.com/swimresults/service-core v0.8.3 h1:7lLj0RXakxUCmeAzVbmdkE2Sc4uQhkAsT+
 github.com/swimresults/service-core v0.8.3/go.mod h1:z8ywRluddSZBynCS2mW9Sgp3XCk84UDF9uziGRxmkTs=
 github.com/swimresults/service-core v0.8.4 h1:443jdn12wepQMzu7C9uqvep9d6n/DmXYQ8Tot1Ow37U=
 github.com/swimresults/service-core v0.8.4/go.mod h1:z8ywRluddSZBynCS2mW9Sgp3XCk84UDF9uziGRxmkTs=
+github.com/swimresults/service-core v0.9.0 h1:iCqgEQXE3hWcG9g38gli4wcSKN0r3CBuF6eXlXart+I=
+github.com/swimresults/service-core v0.9.0/go.mod h1:z8ywRluddSZBynCS2mW9Sgp3XCk84UDF9uziGRxmkTs=
 github.com/twitchyliquid64/golang-asm v0.15.1 h1:SU5vSMR7hnwNxj24w34ZyCi/FmDZTkS4MhqMhdFk5YI=
 github.com/twitchyliquid64/golang-asm v0.15.1/go.mod h1:a1lVb/DtPvCB8fslRZhAngC2+aY1QWCk3Cedj/Gdt08=
 github.com/ugorji/go/codec v1.3.0 h1:Qd2W2sQawAfG8XSvzwhBeoGq71zXOC/Q1E9y/wUcsUA=
