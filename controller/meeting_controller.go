@@ -1,11 +1,13 @@
 package controller
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/swimresults/meeting-service/model"
 	"github.com/swimresults/meeting-service/service"
+	"github.com/swimresults/service-core/security"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"net/http"
 )
 
 func meetingController() {
@@ -14,9 +16,9 @@ func meetingController() {
 	router.GET("/meeting/meet/:meet_id", getMeetingByMeetId)
 	router.GET("/meeting/between/:date_start/:date_end", getMeetingWithDateBetween)
 
-	router.DELETE("/meeting/:id", removeMeeting)
-	router.POST("/meeting", addMeeting)
-	router.PUT("/meeting", updateMeeting)
+	security.Route(router, "DELETE", "/meeting/:id", security.PermissionManager, removeMeeting)
+	security.Route(router, "POST", "/meeting", security.PermissionManager, addMeeting)
+	security.Route(router, "PUT", "/meeting", security.PermissionManager, updateMeeting)
 }
 
 func getMeetings(c *gin.Context) {

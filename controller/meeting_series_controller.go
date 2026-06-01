@@ -1,19 +1,21 @@
 package controller
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/swimresults/meeting-service/model"
 	"github.com/swimresults/meeting-service/service"
+	"github.com/swimresults/service-core/security"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"net/http"
 )
 
 func meetingSeriesController() {
 	router.GET("/meeting_series", getMeetingSeries)
 	router.GET("/meeting_series/:id", getMeetingSeriesById)
-	router.DELETE("/meeting_series/:id", removeMeetingSeries)
-	router.POST("/meeting_series", addMeetingSeries)
-	router.PUT("/meeting_series", updateMeetingSeries)
+	security.Route(router, "DELETE", "/meeting_series/:id", security.PermissionManager, removeMeetingSeries)
+	security.Route(router, "POST", "/meeting_series", security.PermissionManager, addMeetingSeries)
+	security.Route(router, "PUT", "/meeting_series", security.PermissionManager, updateMeetingSeries)
 }
 
 func getMeetingSeries(c *gin.Context) {
