@@ -20,12 +20,12 @@ func ageGroupController() {
 	router.GET("/age_group/meet/:meet_id", getAgeGroupsByMeeting)
 	router.GET("/age_group/meet/:meet_id/event/:event_id", getAgeGroupByMeetingAndEvent)
 
-	security.Route(router, "POST", "/age_group", security.PermissionMeeting, addAgeGroup)
-	security.Route(router, "POST", "/age_group/import", security.PermissionMeeting, importAgeGroup)
+	security.Route(router, "POST", "/age_group", security.PermissionAdmin, addAgeGroup)
+	security.Route(router, "POST", "/age_group/import", security.PermissionAdmin, importAgeGroup)
 
-	security.Route(router, "DELETE", "/age_group/:id", security.PermissionMeeting, removeAgeGroup)
+	security.Route(router, "DELETE", "/age_group/:id", security.PermissionAdmin, removeAgeGroup)
 
-	security.Route(router, "PUT", "/age_group", security.PermissionMeeting, updateAgeGroup)
+	security.Route(router, "PUT", "/age_group", security.PermissionAdmin, updateAgeGroup)
 }
 
 func getAgeGroups(c *gin.Context) {

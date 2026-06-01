@@ -2,14 +2,15 @@ package controller
 
 import (
 	"fmt"
+	"net/http"
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 	"github.com/swimresults/meeting-service/dto"
 	"github.com/swimresults/meeting-service/model"
 	"github.com/swimresults/meeting-service/service"
 	"github.com/swimresults/service-core/security"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"net/http"
-	"strconv"
 )
 
 func eventController() {
@@ -20,12 +21,12 @@ func eventController() {
 	router.GET("/event/meet/:meet_id/event/:event_id", getEventByMeetingAndNumber)
 	router.GET("/event/meet/:meet_id/event/:event_id/livetiming", getEventByMeetingAndNumberForLivetiming)
 
-	security.Route(router, "POST", "/event", security.PermissionMeeting, addEvent)
-	security.Route(router, "POST", "/event/import", security.PermissionMeeting, importEvent)
-	security.Route(router, "POST", "/event/meet/:meet_id/event/:event_id/certification", security.PermissionMeeting, updateEventCertification)
+	security.Route(router, "POST", "/event", security.PermissionManager, addEvent)
+	security.Route(router, "POST", "/event/import", security.PermissionAdmin, importEvent)
+	security.Route(router, "POST", "/event/meet/:meet_id/event/:event_id/certification", security.PermissionManager, updateEventCertification)
 
-	security.Route(router, "DELETE", "/event/:id", security.PermissionMeeting, removeEvent)
-	security.Route(router, "PUT", "/event", security.PermissionMeeting, updateEvent)
+	security.Route(router, "DELETE", "/event/:id", security.PermissionManager, removeEvent)
+	security.Route(router, "PUT", "/event", security.PermissionManager, updateEvent)
 }
 
 func getEvents(c *gin.Context) {

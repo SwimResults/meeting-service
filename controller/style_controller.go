@@ -1,21 +1,22 @@
 package controller
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/swimresults/meeting-service/model"
 	"github.com/swimresults/meeting-service/service"
 	"github.com/swimresults/service-core/security"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"net/http"
 )
 
 func styleController() {
 	router.GET("/style", getStyles)
 	router.GET("/style/:id", getStyle)
 	router.GET("/style/name/:name", getStyleByName)
-	security.Route(router, "DELETE", "/style/:id", security.PermissionMeeting, removeStyle)
-	security.Route(router, "POST", "/style", security.PermissionMeeting, addStyle)
-	security.Route(router, "PUT", "/style", security.PermissionMeeting, updateStyle)
+	security.Route(router, "DELETE", "/style/:id", security.PermissionAdmin, removeStyle)
+	security.Route(router, "POST", "/style", security.PermissionAdmin, addStyle)
+	security.Route(router, "PUT", "/style", security.PermissionAdmin, updateStyle)
 }
 
 func getStyles(c *gin.Context) {

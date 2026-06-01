@@ -13,9 +13,9 @@ import (
 func meetingSeriesController() {
 	router.GET("/meeting_series", getMeetingSeries)
 	router.GET("/meeting_series/:id", getMeetingSeriesById)
-	security.Route(router, "DELETE", "/meeting_series/:id", security.PermissionMeeting, removeMeetingSeries)
-	security.Route(router, "POST", "/meeting_series", security.PermissionMeeting, addMeetingSeries)
-	security.Route(router, "PUT", "/meeting_series", security.PermissionMeeting, updateMeetingSeries)
+	security.Route(router, "DELETE", "/meeting_series/:id", security.PermissionManager, removeMeetingSeries)
+	security.Route(router, "POST", "/meeting_series", security.PermissionManager, addMeetingSeries)
+	security.Route(router, "PUT", "/meeting_series", security.PermissionManager, updateMeetingSeries)
 }
 
 func getMeetingSeries(c *gin.Context) {
