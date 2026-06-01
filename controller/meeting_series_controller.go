@@ -1,12 +1,13 @@
 package controller
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/swimresults/meeting-service/model"
 	"github.com/swimresults/meeting-service/service"
 	"github.com/swimresults/service-core/security"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"net/http"
 )
 
 func meetingSeriesController() {

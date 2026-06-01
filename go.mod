@@ -7,7 +7,7 @@ toolchain go1.24.4
 require (
 	github.com/gin-gonic/gin v1.10.1
 	github.com/go-playground/assert/v2 v2.2.0
-	github.com/swimresults/service-core v0.9.1
+	github.com/swimresults/service-core v0.9.2
 	github.com/zsais/go-gin-prometheus v1.0.0
 	go.mongodb.org/mongo-driver v1.17.4
 )
